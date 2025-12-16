@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>توازن — اختبار الصحة النفسية</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap');
+
+  :root{
+    --navy:#0A2240;
+    --sky:#66B7E6;
+    --soft:#F0F8FF;
+    --card-bg:#ffffff;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: "Tajawal", system-ui, Arial, sans-serif;
+    background: linear-gradient(180deg,#ffffff 0%, #f6fbff 100%);
+    color:var(--navy);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  /* header */
+  .topbar{
+    width:100%;
+    padding:28px 8%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  .logo {
+    position:absolute;
+    right:8%;
+    top:18px;
+    width:72px;
+    height:auto;
+    opacity:0.98;
+  }
+  .title-wrap{
+    text-align:center;
+    max-width:720px;
+    margin:0 auto;
+  }
+  .main-title{
+    font-size:28px;
+    font-weight:800;
+    color:var(--navy);
+    margin:0;
+    letter-spacing:1px;
+  }
+  .sub-title{
+    margin-top:6px;
+    color:var(--navy);
+    opacity:0.8;
+    font-size:14px;
+    font-weight:500;
+  }
+
+  /* central card */
+  .card {
+    width:85%;
+    max-width:760px;
+    background:var(--card-bg);
+    border-radius:18px;
+    box-shadow: 0 10px 30px rgba(10,34,64,0.08);
+    margin:26px 0 40px;
+    padding:28px;
+  }
+
+  .progress-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+  }
+  .progress-text{font-size:13px;color:var(--navy);opacity:.85}
+  .progress{
+    flex:1;
+    height:10px;
+    background:#e8f2fb;
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .progress > i{
+    display:block;
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,var(--sky),var(--navy));
+    border-radius:8px;
+    transition:width .35s ease;
+  }
+
+  .question-wrap{
+    min-height:220px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+  }
+  .question-card{
+    width:100%;
+    max-width:640px;
+    text-align:center;
+  }
+  .q-number{
+    font-size:13px;
+    color:var(--navy);
+    opacity:.8;
+    margin-bottom:8px;
+  }
+  .q-text{
+    font-size:20px;
+    font-weight:700;
+    margin:0 0 18px;
+    color:var(--navy);
+  }
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    align-items:center;
+  }
+  .option{
+    width:100%;
+    max-width:460px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#fbfdff;
+    border-radius:10px;
+    padding:12px 14px;
+    border:1px solid rgba(10,34,64,0.06);
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .option:hover{transform:translateY(-3px); box-shadow:0 6px 18px rgba(10,34,64,0.06)}
+  .option input{accent-color:var(--navy)}
+  .option span{font-weight:600; color:var(--navy)}
+
+  .nav-buttons{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    margin-top:18px;
+  }
+  .btn{
+    padding:10px 18px;
+    border-radius:10px;
+    border:none;
+    background:var(--navy);
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow: 0 6px 18px rgba(10,34,64,0.07);
+  }
+  .btn.secondary{
+    background:#f4f7fb;
+    color:var(--navy);
+    border:1px solid rgba(10,34,64,0.06);
+    font-weight:700;
+  }
+
+  /* result box */
+  .result {
+    margin-top:18px;
+    padding:16px;
+    border-radius:12px;
+    color:#fff;
+    font-weight:800;
+    font-size:18px;
+    display:none;
+  }
+  .tips{
+    margin-top:12px;
+    font-size:15px;
+    color:var(--navy);
+    background:#fbfdff;
+    border-radius:10px;
+    padding:12px;
+    border:1px solid rgba(10,34,64,0.05);
+  }
+
+  /* footer */
+  .support{
+    width:90%;
+    max-width:760px;
+    margin-bottom:40px;
+    text-align:center;
+    color:var(--navy);
+  }
+  .support strong{display:block; margin-bottom:8px}
+  .contacts{margin-top:10px; font-size:15px; line-height:1.7}
+  .credits{margin-top:16px; font-size:13px; opacity:.9}
+
+  /* responsive */
+  @media (max-width:640px){
+    .logo{right:6%; width:60px}
+    .card{padding:18px}
+    .q-text{font-size:18px}
+    .option{padding:10px}
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+
+    <div class="title-wrap">
+      <div class="main-title">توازن</div>
+      <div class="sub-title">Tawazon</div>
+    </div>
+  </div>
+
+  <div class="card" role="main">
+    <div class="progress-row">
+      <div class="progress-text" id="progTxt">السؤال 1 / 15</div>
+      <div class="progress" aria-hidden="true"><i id="progBar"></i></div>
+    </div>
+
+    <div class="question-wrap">
+      <div class="question-card" id="questionCard">
+        <!-- السؤال والشكل يملأان ديناميكياً -->
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn secondary" id="prevBtn" onclick="prevQ()" disabled>رجوع</button>
+      <button class="btn" id="nextBtn" onclick="nextQ()">التالي</button>
+    </div>
+
+    <div id="resultBox" class="result" role="status" aria-live="polite"></div>
+    <div id="tipsBox" class="tips" style="display:none"></div>
+  </div>
+
+  <div class="support">
+    <strong> الكل موجود عشانك 🩵</strong>
+    <div class="contacts">
+      <strong>عناية - المركز الصحي النفسي بجامعة الإمام</strong>
+      قسم الرجال: 0112581926 — قسم النساء: 0112582566<br>
+      البريد الإلكتروني: EPSS@imamu.edu.sa<br><br>
+
+      الرقم الموحد للصحة: <strong>937</strong><br>
+      رقم الاستشارات النفسية: <strong>920033360</strong>
+    </div>
+
+    <div class="credits">
+      صنعت لحظات توازن بالرعاية والاهتمام..من قبل طالبات د.فهدة القصير🩵 — لأي استفسار راسلنا على: <a href="mailto:haya.almuzan@outlook.sa">haya.almuzan@outlook.sa</a>
+    </div>
+  </div>
+
+<script>
+  // --- الأسئلة (15) ---
+  const questions = [
+    "أحس بالتوتر طوال اليوم",
+    "نومي غير منتظم",
+    "أشعر بانخفاض في الطاقة",
+    "أواجه صعوبة في التركيز على المهام اليومية",
+    "أحس بالمزاج المتقلب بدون سبب واضح",
+    "أشعر بالقلق من المستقبل",
+    "أفكر كثيرًا في المشكلات الصغيرة",
+    "أحس بالعزلة عن الآخرين",
+    "أجد صعوبة في الاسترخاء",
+    "أشعر بالتعب بعد القيام بأبسط الأعمال",
+    "أواجه صعوبة في اتخاذ القرارات",
+    "أشعر بعدم الرضا عن حياتي اليومية",
+    "أحس بالتوتر عند مواجهة مواقف اجتماعية",
+    "أواجه صعوبة في النوم بسبب التفكير المفرط",
+    "أشعر أحيانًا بأن الأمور خارجة عن سيطرتي"
+  ];
+
+  // خيارات ودرجاتها
+  const choices = [
+    {label:"نادرًا", value:1},
+    {label:"أحيانًا", value:2},
+    {label:"غالبًا", value:3},
+    {label:"دائمًا", value:4},
+  ];
+
+  let answers = new Array(questions.length).fill(null);
+  let current = 0;
+
+  const qCard = document.getElementById('questionCard');
+  const progBar = document.getElementById('progBar');
+  const progTxt = document.getElementById('progTxt');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const resultBox = document.getElementById('resultBox');
+  const tipsBox = document.getElementById('tipsBox');
+
+  function renderQuestion(i){
+    const qNum = i + 1;
+    progTxt.textContent = `السؤال ${qNum} / ${questions.length}`;
+    progBar.style.width = `${Math.round((qNum-1) / questions.length * 100)}%`;
+
+    // بناء HTML للسؤال الحالي
+    let html = `<div class="q-number">السؤال ${qNum}</div>
+                <div class="q-text">${questions[i]}</div>
+                <div class="options">`;
+
+    choices.forEach((c, idx) => {
+      // checked إذا كان موجود إجابة سابقة
+      const checked = answers[i] === c.value ? 'checked' : '';
+      html += `<label class="option" onclick="selectOption(${i}, ${c.value})">
+                 <span>${c.label}</span>
+                 <input type="radio" name="q${i}" value="${c.value}" ${checked} style="display:none"/>
+               </label>`;
+    });
+
+    html += `</div>`;
+    qCard.innerHTML = html;
+
+    // تفعيل/تعطيل أزرار
+    prevBtn.disabled = (i === 0);
+    // لو آخر سؤال: زر التالي يصبح "احسب النتيجة"
+    if(i === questions.length - 1){
+      nextBtn.textContent = 'احسب نتيجتك';
+    } else {
+      nextBtn.textContent = 'التالي';
+    }
+
+    // اخفاء نتيجة سابقة
+    resultBox.style.display='none';
+    tipsBox.style.display='none';
+  }
+
+  // اختيار خيار
+  function selectOption(qIndex, val){
+    answers[qIndex] = val;
+    // إبقاء الاختيار مرئي (نحدث العنصر checked)
+    const radios = document.getElementsByName('q'+qIndex);
+    radios.forEach(r => { r.checked = false; });
+    // لا نعتمد على radios (مخفي)، لذلك نعيد رسم السؤال لاظهار حالة checked
+    renderQuestion(qIndex);
+  }
+
+  function nextQ(){
+    // تأكد من الإجابة على السؤال الحالي
+    if(answers[current] === null){
+      alert('يرجى اختيار إجابة للسؤال قبل التقدم.');
+      return;
+    }
+
+    if(current < questions.length - 1){
+      current++;
+      renderQuestion(current);
+    } else {
+      // حساب النتيجة وعرضها
+      calculateResult();
+    }
+  }
+
+  function prevQ(){
+    if(current > 0){
+      current--;
+      renderQuestion(current);
+    }
+  }
+
+  function calculateResult(){
+    // تأكد جميع الأسئلة مجابة
+    for(let i=0;i<answers.length;i++){
+      if(answers[i] === null){
+        alert('يرجى الإجابة على جميع الأسئلة قبل حساب النتيجة.');
+        current = i;
+        renderQuestion(i);
+        return;
+      }
+    }
+
+    const total = answers.reduce((a,b) => a + b, 0); // 15..60
+    // عتبات النتيجة (قابلة للتعديل)
+    // مقترح: 15-23: أخضر, 24-33: أصفر, 34-45: برتقالي, 46-60: أحمر
+    let status = '', color='', tips='';
+    if(total <= 23){
+      status = 'توازن نفسي جيد ✅';
+      color = '#2e7d32'; // أخضر
+      tips = 'حافظي على روتينك، النوم الكافي، وممارسة نشاطات تخفيف التوتر.';
+    } else if(total <= 33){
+      status = 'ضغوط بسيطة ⚠️';
+      color = '#f9a825'; // أصفر
+      tips = 'جربي تمارين التنفس، تقسيم المهام، والتواصل مع شخص مقرب.';
+    } else if(total <= 45){
+      status = 'توتر واضح يحتاج اهتمام ⚠️';
+      color = '#ef6c00'; // برتقالي
+      tips = 'نصح بترتيب وقتك، تجربة تقنيات الاسترخاء، وفكر/ي في زيارة مختص إذا استمر الوضع.';
+    } else {
+      status = 'توتر عالي — يُنصح باستشارة مختص ❌';
+      color = '#c62828'; // أحمر
+      tips = 'نوصي بالتواصل مع مركز الإرشاد أو خدمات طوارئ الصحة النفسية للحصول على دعم فوري.';
+    }
+
+    resultBox.style.display = 'block';
+    resultBox.style.background = color;
+    resultBox.textContent = status;
+
+    tipsBox.style.display = 'block';
+    tipsBox.textContent = tips;
+
+    // حدّث شريط التقدّم ليصبح مئة بالمية
+    progBar.style.width = '100%';
+    progTxt.textContent = `النتيجة — مجموع نقاط: ${total}`;
+    // اسفل النتيجة نعرض نصائح مُفصّلة (تم تضمينها في tipsBox)
+    // لو تحبين أقدر أضيف تفاصيل أكثر لكل حالة
+  }
+
+  // بداية
+  renderQuestion(0);
+</script>
+</body>
+</html>
